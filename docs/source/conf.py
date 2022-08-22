@@ -17,7 +17,7 @@
 
 # -- Project information -----------------------------------------------------
 
-project = 'Qiita-Ellipse'
+project = 'Collision-of-Ellipse'
 copyright = '2022, Naoki Hori'
 author = 'Naoki Hori'
 
@@ -51,7 +51,7 @@ html_theme = 'alabaster'
 html_theme_options = {
     "fixed_sidebar": "true",
     "github_user": "NaokiHori",
-    "github_repo": "Qiita-Ellipse",
+    "github_repo": "Collision-of-Ellipse",
     "github_type": "true",
 }
 

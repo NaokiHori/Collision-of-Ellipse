@@ -1,6 +1,6 @@
-#######
-Ellipse
-#######
+####################
+Collision-of-Ellipse
+####################
 
 **********
 Motivation
@@ -69,7 +69,7 @@ In general, an ellipse is rotated to a certain degree :math:`\theta_0`, and thus
    \begin{pmatrix}
       \cos \theta_0 & -\sin \theta_0 \\
       \sin \theta_0 &  \cos \theta_0
-   \end{pmatrix}.
+   \end{pmatrix}
    \begin{pmatrix}
       a_0 \cos t_0 \\
       b_0 \sin t_0
@@ -92,7 +92,7 @@ Furthermore, the center :math:`( x_0, y_0 )` is not at the origin, which again m
    \begin{pmatrix}
       \cos \theta_0 & -\sin \theta_0 \\
       \sin \theta_0 &  \cos \theta_0
-   \end{pmatrix}.
+   \end{pmatrix}
    \begin{pmatrix}
       a_0 \cos t_0 \\
       b_0 \sin t_0

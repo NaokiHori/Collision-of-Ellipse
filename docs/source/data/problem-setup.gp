@@ -83,6 +83,7 @@ do for [n = 1 : 2 : 1] {
   set label sprintf('$a_%d$', n-1) center at first 0.5*(e0x+e1x), first 0.5*(e0y+e1y) front
   set label sprintf('$b_%d$', n-1) center at first 0.5*(e0x+e2x), first 0.5*(e0y+e2y) front
   set label sprintf('$\theta_%d$', n-1) center at first e0x+0.5*cos(0.5*e_ts[n]), first e0y+0.5*sin(0.5*e_ts[n]) front
+  set label sprintf('$( x_%d, y_%d )$', n-1, n-1) center at first e0x, first e0y-0.25 front
 }
 
 plot \

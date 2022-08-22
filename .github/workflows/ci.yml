@@ -23,7 +23,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v1
         with:
-          repository: 'NaokiHori/Qiita-Ellipse'
+          repository: 'NaokiHori/Collision-of-Ellipse'
           ref: 'main'
       - name: Compile
         run: |
@@ -61,7 +61,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v1
         with:
-          repository: 'NaokiHori/Qiita-Ellipse'
+          repository: 'NaokiHori/Collision-of-Ellipse'
           ref: 'main'
       - name: Download DatFiles
         uses: actions/download-artifact@v3
