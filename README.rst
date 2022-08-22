@@ -13,5 +13,5 @@ Qiita-Ellipse
 Acknowledgement
 ***************
 
-This library is inspired by `Simple Method or Distance to Ellipse <https://blog.chatfield.io/simple-method-for-distance-to-ellipse/>`_.
+This library is inspired by `Simple Method for Distance to Ellipse <https://blog.chatfield.io/simple-method-for-distance-to-ellipse/>`_.
 
