@@ -32,11 +32,11 @@ int fit_circles(void){
       e1_y     = 2.8;
       e1_theta = 2.0;
     }
-    // targets (centers of the evolute), initialised by the opponents' center
-    double e0_xc = e1_x;
-    double e0_yc = e1_y;
-    double e1_xc = e0_x;
-    double e1_yc = e0_y;
+    // centers of the evolute, initialised by the center of ellipse
+    double e0_xc = e0_x;
+    double e0_yc = e0_y;
+    double e1_xc = e1_x;
+    double e1_yc = e1_y;
     double e0_r, e1_r;
     for(int n = 0; n < 10; n++){
       // transform coordinate so that
