@@ -6,6 +6,12 @@ Collision-of-Ellipse
    :width: 600
    :target: https://qiita.com/NaokiHori/items/daf3fd191d51a7e682f8
 
+*****************
+Method & examples
+*****************
+
+Please refer to `the documentation <https://naokihori.github.io/Collision-of-Ellipse/>`_.
+
 ***************
 Acknowledgement
 ***************

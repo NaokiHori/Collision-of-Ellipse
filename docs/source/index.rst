@@ -170,7 +170,7 @@ which is the so-called evolute and its local curvature is given by
       \sqrt{\left( a^2 \sin^2 t + b^2 \cos^2 t \right)^3}
    }.
 
-An example can be found in the picture below, where one can see that the black arrow connecting two points :math:`( x_p, y_p )` and :math:`( x_c, y_c )` gives a tangential vector to the ellipse and the fitted circle.
+An example can be found in the picture below (`script <https://github.com/NaokiHori/Collision-of-Ellipse/blob/main/src/fit_circle.c>`_), where one can see that the black arrow connecting two points :math:`( x_p, y_p )` and :math:`( x_c, y_c )` gives a tangential vector to the ellipse and the fitted circle.
 
 .. image:: data/fit-circle.png
    :width: 400
@@ -196,12 +196,15 @@ When the two ellipses are not colliding, the final state leads
 .. image:: data/fit-circles-1.png
    :width: 400
 
+A script to generate these datasets can be found `here <https://github.com/NaokiHori/Collision-of-Ellipse/blob/main/src/fit_circles.c>`_.
+
 Since we obtain circles, it is straightforward to define a penetration depth as
 
 .. math::
 
    \delta \equiv r_0 + r_1 - d,
 
-where :math:`r_i` are radii of the fitted circles, while :math:`d` is the distance between two centers.
-We can conclude that two circles (or ellipses) are colliding when :math:`\delta > 0`.
+where :math:`r_i` are radii of the fitted circles, while :math:`d` is the distance between two centers (of the fitting circles).
+It is readily apparent that we can conclude that two circles are colliding when :math:`\delta > 0`.
+Moreover, this determination gives a good estimation even for the collision between ellipses.
 
