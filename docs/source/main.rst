@@ -76,7 +76,7 @@ Also the local curvature is given by
 
 whose reciprocal is the radius of the fitted circle.
 
-So, we want to find :math:`t` with which a vector from the center of the evolute ``(e0_xc_, e0_yc_)`` to the target point ``(e0_xp_, e0_yp_)`` gives a normal vector to the ellipse.
+So, we want to find :math:`t` with which a vector from the evolute ``(e0_xc_, e0_yc_)`` (i.e., center of the fitted circle) to the target point ``(e0_xp_, e0_yp_)`` gives a normal vector to the ellipse.
 The question is: how?
 
 This is answered by `the original project <https://blog.chatfield.io/simple-method-for-distance-to-ellipse/>`_ elegantly.
@@ -173,7 +173,7 @@ The final step is to go back to the original coordinate system:
    :language: c
    :tag: transform coordinate, backward
 
-Here the center of the evolute is transformed to the original coordinate system ``(e0_xc, e0_yc)`` to draw the above sketch.
+Here the center of the fitted circle (evolute) is transformed to the original coordinate system ``(e0_xc, e0_yc)`` to draw the above sketch.
 Obviously we need to first rotate the ellipse and later move the center to the original position, which is taken care of by a function ``rotate_and_shift``.
 
 .. seealso::
@@ -185,7 +185,8 @@ Collision of two ellipses
 *************************
 
 I use the above method to quantify the penetration depth :math:`\delta`.
-In particular, for the ellipse :math:`0`, the center of the evolute of the ellipse :math:`1` :math:`( x_{c_1}, y_{c_1} )` is used as the target point :math:`( x_{p_0}, y_{p_0} )` to fit a circle, and vice versa for the ellipse :math:`1`.
+In particular, for the ellipse :math:`0`, the center of the fitted circle of the ellipse :math:`1` :math:`( x_{c_1}, y_{c_1} )` is used as the target point :math:`( x_{p_0}, y_{p_0} )` to fit a circle, and vice versa for the ellipse :math:`1`.
+Please refer to the previous section for the meaning of the terminologies (e.g., target points).
 This process is iterated until the locations of :math:`( x_{c_i}, y_{c_i} )` converge.
 
 When the two ellipses are colliding, the fitting circles lead
@@ -198,7 +199,56 @@ When the two ellipses are not colliding, the final state leads
 .. image:: data/fit-circles-1.png
    :width: 400
 
-A script to generate these datasets can be found `here <https://github.com/NaokiHori/Collision-of-Ellipse/blob/main/src/fit_circles.c>`_.
+The whole procedure to generate these sketches are as follows.
+
+First of all, axes and the rotation angles of the two ellipses are prescribed:
+
+.. myliteralinclude:: /../../src/fit_circles.c
+   :language: c
+   :tag: initialise geometry of ellipses
+
+Since I want to draw two cases when two ellipses do and do not collide, two different positions of the ellipses are considered:
+
+.. myliteralinclude:: /../../src/fit_circles.c
+   :language: c
+   :tag: initialise centers of ellipses
+
+Here a parameter ``index`` is used to distinguish colliding (``0``) and not-colliding (``1``) cases.
+
+Although we want to use the center of the *fitted circle* (evolute) of the opponent as the target point, it is not known at the beginning.
+Here I use the coordinate of the center of the *ellipse itself* as a good approximation of the evolute to initialise ``(e0_xc, e0_yc)`` and ``(e1_xc, e1_yc)``:
+
+.. myliteralinclude:: /../../src/fit_circles.c
+   :language: c
+   :tag: initialise evolutes using the centers of ellipses
+
+Since all essential variables are given now, we can iterate the method discussed in the previous section for two ellipses until the parameters ``e0_t`` (:math:`t_0`) and ``e1_t`` (:math:`t_1`) converge; namely, we first transform coordinates of the centers of the fitted circles of the opponents (different coordinate is used for each ellipse):
+
+.. myliteralinclude:: /../../src/fit_circles.c
+   :language: c
+   :tag: transform coordinates, forward
+
+which is followed by the optimisations of the parameters (``e0_t`` and ``e1_t``):
+
+.. myliteralinclude:: /../../src/fit_circles.c
+   :language: c
+   :tag: find desired t
+
+and compute the centers of the corresponding fitted circles:
+
+.. myliteralinclude:: /../../src/fit_circles.c
+   :language: c
+   :tag: update center of fitted circles
+
+and finally recover the original coordinates by the backward transformations:
+
+.. myliteralinclude:: /../../src/fit_circles.c
+   :language: c
+   :tag: transform coordinates, backward
+
+.. seealso::
+
+   One can find the script which is used to draw the above schematics in `src/fit_circles.c <https://github.com/NaokiHori/Collision-of-Ellipse/blob/main/src/fit_circles.c>`_.
 
 Since we obtain circles, it is straightforward to define a penetration depth as
 
@@ -206,7 +256,6 @@ Since we obtain circles, it is straightforward to define a penetration depth as
 
    \delta \equiv r_0 + r_1 - d,
 
-where :math:`r_i` are radii of the fitted circles, while :math:`d` is the distance between two centers (of the fitting circles).
-It is readily apparent that we can conclude that two circles are colliding when :math:`\delta > 0`.
-Moreover, this determination gives a good estimation even for the collision between ellipses.
+where :math:`r_i` are radii of the fitted circles, while :math:`d` is the distance between the two centers of the fitting circles.
+It is readily apparent that we can conclude that two circles are colliding when :math:`\delta > 0`, and this can give a good estimation even for the collision depth between ellipses.
 
