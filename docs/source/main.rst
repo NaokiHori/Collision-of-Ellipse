@@ -2,6 +2,102 @@
 Collision evaluation with circular fittings
 ###########################################
 
+*********************
+Coordinate transforms
+*********************
+
+Although ellipses can rotate and their centers are not at the origin in general, it is cumbersome to discuss based on this general configuration.
+Thus, hereafter, we consider to transform the coordinate system:
+
+.. math::
+   \begin{pmatrix}
+     x_p \\
+     y_p
+   \end{pmatrix}
+   \leftarrow
+   \begin{pmatrix}
+     \cos ( -\theta) & - \sin ( -\theta) \\
+     \sin ( -\theta) &   \cos ( -\theta)
+   \end{pmatrix}
+   \begin{pmatrix}
+     x_p-x_0 \\
+     y_p-y_0
+   \end{pmatrix}
+
+so that we move to a new coordinate system in which the ellipse (whose center is at :math:`( x_0, y_0 )` and the rotation angle is :math:`\theta`) locates at the origin and does not rotate.
+
+Also a position computed in this comfortable system should be transformed back
+
+.. math::
+   \begin{pmatrix}
+     x_p \\
+     y_p
+   \end{pmatrix}
+   \leftarrow
+   \begin{pmatrix}
+     x_0 \\
+     y_0
+   \end{pmatrix}
+   +
+   \begin{pmatrix}
+     \cos ( +\theta) & - \sin ( +\theta) \\
+     \sin ( +\theta) &   \cos ( +\theta)
+   \end{pmatrix}
+   \begin{pmatrix}
+     x_p \\
+     y_p
+   \end{pmatrix}
+
+to recover the information in the original system.
+
+Hereafter, we assume that these treatments are properly done a priori and a posteriori.
+
+***************************************
+Approximation of an ellipse by a circle
+***************************************
+
+Although the collision between two ellipses is fairly complicated, the one between circles is much easier.
+For instance, the penetration depth of two circles lead
+
+.. math::
+
+   \delta \equiv r_0 + r_1 - d,
+
+where radii of the circles are :math:`r_0` and :math:`r_1` and its distance from center to center is given by :math:`d`.
+I am interested in a relatively small collisions now; namely, :math:`\delta` is much smaller than the sizes of the colliding objects.
+Thus, I concluded that considering the collision between two circles which approximate the ellipses in the vicinity of the colliding points is justified.
+
+Luckily, an analytical relation exists for a circle which approximates an ellipse locally, whose center leads
+
+.. math::
+
+   \left(
+      x_c,
+      y_c
+   \right)
+   =
+   \left(
+      a \left( 1 - \frac{b^2}{a^2} \right) \cos^3 t,
+      b \left( 1 - \frac{a^2}{b^2} \right) \sin^3 t
+   \right),
+
+which is the so-called `evolute <https://en.wikipedia.org/wiki/Evolute#Evolute_of_an_ellipse>`_.
+Also the local curvature is given by
+
+.. math::
+
+   \kappa
+   =
+   \frac{
+     ab
+   }{
+      \sqrt{\left( a^2 \sin^2 t + b^2 \cos^2 t \right)^3}
+   },
+
+whose reciprocal is the radius of the fitted circle.
+
+So the question is: how can I compute :math:`t` which gives a circle nicely approximating the ellipse locally?
+
 *******************************************
 Minimum distance from a point to an ellipse
 *******************************************
@@ -10,8 +106,7 @@ Minimum distance from a point to an ellipse
 
    This part is largely inspired by `Simple Method for Distance to Ellipse <https://blog.chatfield.io/simple-method-for-distance-to-ellipse/>`_.
 
-We first consider to find a minimum distance from a point :math:`( x_p, y_p )` to an ellipse, which is equivalent to find a normal vector from the point to the ellipse.
-Moreover, this is the same thing to consider a circle (whose center is at :math:`( x_c, y_c )` and its radius is :math:`r`) approximating the ellipse locally.
+Actually, the above question is equivalent to find a normal vector from the point :math:`( x_p, y_p )` to the ellipse, and also is the same thing to consider the minimum distance to the ellipse.
 
 An example can be found in the picture below, where one can see that:
 
@@ -45,41 +140,9 @@ Since the ellipse is rotated and its center does not locate at the origin, we tr
    :tag: transform coordinate, forward
 
 Here ``e0_xp_`` and ``e0_yp_`` are the target point :math:`( x_p, y_p )` after being transformed where the center lies at the origin and the ellipse is no longer rotated (:math:`\theta_0 = 0`).
-Obviously we need to first move the ellipse to the center and rotate it, which is taken care of by a function ``shift_and_rotate``.
+Obviously, we need to first move the ellipse to the center and rotate it, which is taken care of by a function ``shift_and_rotate``.
 
-For this *simple* ellipse, the center of the fitted circle :math:`( x_c, y_c )` for a specific :math:`t` (same parameter used to describe the ellipse) leads
-
-.. math::
-
-   \left(
-      x_c,
-      y_c
-   \right)
-   =
-   \left(
-      a \left( 1 - \frac{b^2}{a^2} \right) \cos^3 t,
-      b \left( 1 - \frac{a^2}{b^2} \right) \sin^3 t
-   \right),
-
-which is the so-called `evolute <https://en.wikipedia.org/wiki/Evolute#Evolute_of_an_ellipse>`_.
-Also the local curvature is given by
-
-.. math::
-
-   \kappa
-   =
-   \frac{
-     ab
-   }{
-      \sqrt{\left( a^2 \sin^2 t + b^2 \cos^2 t \right)^3}
-   },
-
-whose reciprocal is the radius of the fitted circle.
-
-So, we want to find :math:`t` with which a vector from the evolute ``(e0_xc_, e0_yc_)`` (i.e., center of the fitted circle) to the target point ``(e0_xp_, e0_yp_)`` gives a normal vector to the ellipse.
-The question is: how?
-
-This is answered by `the original project <https://blog.chatfield.io/simple-method-for-distance-to-ellipse/>`_ elegantly.
+Now we want to find :math:`t` with which a vector from the evolute ``(e0_xc_, e0_yc_)`` (i.e., center of the fitted circle) to the target point ``(e0_xp_, e0_yp_)`` gives a normal vector to the ellipse, which is solved by `the original project <https://blog.chatfield.io/simple-method-for-distance-to-ellipse/>`_ elegantly.
 The methodology and the implementation in Python can be found in the above link, whose C version ``ellipse_find_normal_t`` is used here:
 
 .. myliteralinclude:: /../../src/fit_circle.c
@@ -174,7 +237,7 @@ The final step is to go back to the original coordinate system:
    :tag: transform coordinate, backward
 
 Here the center of the fitted circle (evolute) is transformed to the original coordinate system ``(e0_xc, e0_yc)`` to draw the above sketch.
-Obviously we need to first rotate the ellipse and later move the center to the original position, which is taken care of by a function ``rotate_and_shift``.
+Obviously, we need to first rotate the ellipse and later move the center to the original position, which is taken care of by a function ``rotate_and_shift``.
 
 .. seealso::
 
