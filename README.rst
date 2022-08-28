@@ -14,7 +14,7 @@ Collision-of-Ellipse
 .. _LastCommit: https://github.com/NaokiHori/Collision-of-Ellipse/commits/main
 
 .. image:: https://naokihori.github.io/Collision-of-Ellipse/_images/fit-circles-0.png
-   :width: 600
+   :width: 400
    :target: https://qiita.com/NaokiHori/items/daf3fd191d51a7e682f8
 
 *****************
