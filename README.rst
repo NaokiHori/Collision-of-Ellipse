@@ -17,6 +17,22 @@ Collision-of-Ellipse
    :width: 400
    :target: https://qiita.com/NaokiHori/items/daf3fd191d51a7e682f8
 
+***********
+Quick start
+***********
+
+Although things are mainly written in C (under ``src`` and ``include``), if Python (with `tkinter <https://docs.python.org/3/library/tkinter.html>`_) is installed, the user can try a simple example (plotting the cover image) by
+
+.. code-block:: console
+
+   python3 example.py
+
+It depends on two packages, which can be installed by
+
+.. code-block:: console
+
+   pip3 install numpy matplotlib
+
 *****************
 Method & examples
 *****************
